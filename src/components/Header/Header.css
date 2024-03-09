@@ -1,0 +1,15 @@
+.casa {
+    background-color: transparent ;
+    color: black;
+}
+.img {
+
+    width: 4em;
+}
+.navdrop{
+    background-color: rgb(231, 233, 233);
+    border-radius: 0.3rem;
+    width: 6rem;
+    text-align: center;
+    
+}

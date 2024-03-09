@@ -1,0 +1,15 @@
+.appoint_container {
+    
+    width: 15em;
+
+    font-size: small;
+}
+.appoint_container img{
+    
+    width: 8em;
+    height: 8em;
+}
+
+.anular {
+   margin: 0.5em;
+}

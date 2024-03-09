@@ -1,0 +1,91 @@
+
+.profileData_container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5em;
+  gap: 1em;
+}
+
+.appointmentsUserContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  height: 30em;
+
+  justify-content: center;
+  gap: 2em;
+}
+.editAppointment_container {
+  background-color: blue;
+  width: 4em;
+}
+
+.table_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 25rem;
+}
+
+.profileData_container input {
+  width: 15em;
+  border-color: transparent transparent transparent;
+  background-color: transparent;
+}
+.profileData_container img {
+  color: azure;
+  width: 1.5em;
+}
+.profileData_container button {
+  margin: 0.2em;
+}
+
+button {
+  box-shadow: 1px 1px 3px black;
+}
+
+.btn_conatiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25em;
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 15em;
+}
+.imgBtn {
+  display: flex;
+  align-items: center;
+  width: 25em;
+
+  background-color: aqua;
+}
+
+.imgBtn img {
+  width: 100%;
+}
+.icons_container {
+  display: flex;
+  justify-content: space-around;
+
+  width: 24em;
+  height: 5.5em;
+}
+.iconProfile {
+ border: transparent transparent;
+ 
+ 
+}
+.iconProfile img {
+  
+  filter: drop-shadow(2px 2px 2px black);
+  width: 3em
+}

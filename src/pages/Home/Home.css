@@ -1,0 +1,268 @@
+.portada_principal {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+.first_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 2em;
+}
+.carousel_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40em;
+  height: 40em;
+}
+.img_principal img {
+  position: relative;
+  width: 100%;
+  margin-left: 15em;
+}
+.img_principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40em;
+  height: 40em;
+}
+.carousel_container img {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .carousel_container {
+    width: 25em;
+    height: 25em;
+  }
+}
+@media (max-width: 600px) {
+  .img_principal {
+    width: 25em;
+    height: 25em;
+  }
+}
+@media (max-width: 600px) {
+  .img_principal img {
+    position: relative;
+    margin-top: -8em;
+  width: 100%;
+  margin-left: 2em;
+  }
+}
+.register_conatiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  
+  width: 40em;
+  height: 40em;
+  gap: 2em;
+}
+@media (max-width: 600px) {
+  .register_conatiner {
+    width: 25em;
+    height: 25em;
+    align-items: center;
+
+
+  }
+}
+
+.portada_principal .img {
+  width: 30em;
+}
+.btn_container {
+  display: flex;
+  margin-top: 3em;
+  width: 18em;
+}
+@media (max-width: 600px) {
+  .btn_container {
+    width: 16em;
+    margin-top: 1em;
+    
+  }
+}
+
+.login_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  width: 20em;
+  height: 15em;
+
+  border-radius: 10px;
+  gap: 2em;
+  box-shadow: 1px 2px 3px black;
+}
+.family_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  width: 20em;
+  height: 15em;
+
+  border-radius: 10px;
+  gap: 2em;
+  box-shadow: 1px 2px 3px black;
+}
+.register {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  width: 20em;
+  height: 25em;
+
+  border-radius: 10px;
+  gap: 0.5em;
+  box-shadow: 1px 2px 3px black;
+}
+.login_container input {
+  width: 15em;
+  
+}
+.img_logo {
+  position: absolute;
+  margin-top: -25em;
+
+  width: 13em;
+}
+
+.register p{
+    font-size: 0.8em;
+    color: red ;
+}
+.btn_alert{
+  border-color:  red ;
+  border-radius: 50%;
+  background-color: red ; 
+   box-shadow: none;
+    font-size: 1em;
+    color: rgb(255, 255, 255) ;
+   
+}
+
+@media (max-width: 600px) {
+  .register {
+    width: 25em;
+    height: 20em;
+    font-size: 0.8em;
+  }
+}
+@media (max-width: 600px) {
+  .register input {
+    width: 18em;
+    
+  }
+}
+
+.commit_container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em ;
+  margin-top: 2em;
+}
+.commit_text{
+display: flex ;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+width: 60em;
+font-size: 1.2em;
+}
+@media (max-width: 600px) {
+  .commit_text{
+    position: relative;
+    margin-top: -7em;
+    width: 25em;
+    font-size: 1em;
+  }
+  
+}
+.commit_text img{
+
+  width: 40em;
+  
+}
+@media (max-width: 600px) {
+  .commit_text img{
+    width: 20em;
+    
+  }
+  
+}
+
+
+.cardcommit_container{
+  display: flex;
+  
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 3em;
+
+}
+
+.img_galery section{
+
+  display: flex ;
+  width: 80em; 
+  height: 40em;
+  margin-top: 2em;
+  
+
+}
+@media (max-width: 600px) {
+  .img_galery section {
+    width: 25em;
+    height: 18em;
+  }
+ 
+ 
+}
+
+.img_galery section img{
+  width: 0px;
+  flex-grow: 1;
+  object-fit: cover;
+  opacity: .8;
+  transition: .5s ease;
+
+}
+.img_galery section img:hover {
+
+  cursor: crosshair ;
+  width: 30em; 
+  opacity: 1;
+  filter: contrast(120%);
+
+}
+
+@media (max-width: 600px) {
+  .img_galery section img:hover{
+    width: 15em;
+  }
+  
+}
+ 
