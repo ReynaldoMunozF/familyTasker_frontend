@@ -90,17 +90,17 @@ export const deleteUserById = async (id,token) => {
   }
 };
 
-export const getAppointmentById = async (token, id) => {
+export const getTasksById = async ( id) => {
   try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const res = await axios.get(`${API_URL}users/${id}/appointments`, config);
+    // const config = {
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
+    const res = await axios.get(`${API_URL}tasks/${id}`);
     return res.data;
   } catch (error) {
-    console.error("Error en el login:", error);
+    console.error("Error en recibir tasks:", error);
     throw error;
   }
 };
@@ -151,7 +151,8 @@ export const deleteAppointmentById = async (token, id) => {
   }
 };
 
-export const createAppointmentById = async (token, appointmentData) => {
+export const createTask = async ( tasksData) => {
+  console.log(tasksData);
   try {
     // const config = {
     //   headers: {
@@ -159,10 +160,10 @@ export const createAppointmentById = async (token, appointmentData) => {
     //   },
     // };
 
-    const res = await axios.post(`${API_URL}appointments`, appointmentData);
+    const res = await axios.post(`${API_URL}tasks`,tasksData);
     return res;
   } catch (error) {
-    console.error("Error en update_Appointment:", error);
+    console.error("Error en create tasks:", error);
     throw error;
   }
 };
@@ -196,26 +197,16 @@ export const updateScheduleById = async (id, updateActive) => {
 
 // <--------------------------------------------------------------------------------------------
 
-export const artistLogin = async (credentials) => {
-  
-  try {
-    const res = await axios.post(`${API_URL}authArtist/login`, credentials, {});
-    const token = res.data.token;
-    return token;
-  } catch (error) {
-    console.error("Error en el login:", error);
-    throw error;
-  }
-};
-export const getArtistById = async (token, id) => {
+
+export const getFamilyById = async (id) => {
 
   try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const res = await axios.get(`${API_URL}artist/${id}`, config);
+    // const config = {
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
+    const res = await axios.get(`${API_URL}families/${id}`);
     return res.data;
   } catch (error) {
     console.error("Error en el login:", error);
@@ -223,23 +214,6 @@ export const getArtistById = async (token, id) => {
   }
 };
 
-export const getAppointmentByArtistId = async (token, id) => {
- 
-  try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    
-
-    const res = await axios.get(`${API_URL}artist/${id}/appointments`, config);
-    return res.data.results;
-  } catch (error) {
-    console.error("Error en appointment:", error);
-    throw error;
-  }
-};
 
 export const updateArtistById = async (token, id, artistData) => {
  
