@@ -12,6 +12,7 @@ import {
   getTasksByFamilyIdAndDate,
   deleteTaskById,
 } from "../../services/apiCalls";
+import EmojiPicker from "emoji-picker-react";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { useSelector } from "react-redux";
 import es from "date-fns/locale/es";
@@ -37,6 +38,8 @@ import icon_add from "../../assets/img/add_icon.png";
 import icon_list2 from "../../assets/img/list2_icon.png";
 import icon_check from "../../assets/img/check_icon.png";
 import icon_delete from "../../assets/img/delete_icon.png";
+import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+
 
 //import DatePicker from "react-multi-date-picker";
 //import TimePicker from "react-multi-date-picker/plugins/time_picker";
@@ -60,6 +63,7 @@ export const Profile = () => {
   const [allFamilyTaskData, setAllFamilyTasksData] = useState([]);
   const [taskFamilyDate, setAllTaskFamilyDateFamily] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isNotification, setIsNotification] = useState(true);
   const [isAlertTask, setIsAlertTask] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
   const [allTaskFamilyDate, setAllTaskFamilyDate] = useState([]);
@@ -162,7 +166,6 @@ export const Profile = () => {
       myFamilyId,
       moment(taskDate).format("YYYY-MM-DD")
     ).then((res) => {
-      // setAllTaskFamilyDateFamily((prevDates) => [...prevDates,res])
       setAllTaskFamilyDateFamily(res);
     });
   }, [taskDate]);
@@ -176,7 +179,6 @@ export const Profile = () => {
     }
   }
   console.log(countTaskActives);
-
 
   const tasksData = {
     users_id: myId,
@@ -262,8 +264,16 @@ export const Profile = () => {
       </div>
       <br />
       <div className="family_name">
-        Hola &nbsp; <strong>{myName?.toUpperCase()}</strong>&nbsp; que tenemos
-        para hoy
+        <p>
+          {" "}
+          Hola <strong>{myName?.toUpperCase()}</strong> <br />
+          ¡Bienvenid@ a nuestra lista de tareas familiares! <br /> ¡Aquí es
+          donde la magia familiar sucede! <br />
+          Listos para organizarnos juntos y hacer que cada día sea especial.{" "}
+          <br />
+          ¡A trabajar en equipo y crear recuerdos inolvidables! <br />
+          Escriban sus tareas, ¡vamos a hacerlas realidad juntos!"
+        </p>
       </div>
       <br />
       <div className="profileData_container">
@@ -272,8 +282,16 @@ export const Profile = () => {
             <img src={icon_user} alt="" onClick={() => isProfileStatus()} />
           </div>
           <div className="iconProfile">
-            <img src={icon_list2} alt="" onClick={() => isTasksStatus()} />
-            
+            <img
+              src={icon_list2}
+              alt=""
+              onClick={() => (
+                isTodoStatus(), isTasksStatus(), setIsNotification(false)
+              )}
+            />
+            {isNotification ? (
+              <button className="btnNotification2">{countTaskActives}</button>
+            ) : null}
           </div>
           <div className="iconProfile">
             <img src={icon_list} alt="" onClick={() => isTodoStatus()} />
@@ -390,17 +408,17 @@ export const Profile = () => {
                 <DatePicker
                   locale="es"
                   let
-                  selected={startDate}
+                  selected={taskDate}
                   dateFormat={"dd/MM/YYYY"}
                   minDate={new Date()}
                   showIcon
-                  onChange={(date) => setStartDate(date)}
+                  onChange={(date) => (setStartDate(date), setTaskDate(date))}
                   //plugins={[<TimePicker hideSeconds />]}
                 />
               </div>
               <div className="task_container">
                 <DatePicker
-                  className="prueba"
+                 className="prueba"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   showTimeSelect
@@ -409,9 +427,11 @@ export const Profile = () => {
                   timeCaption="hora"
                   dateFormat="h:mm aa"
                 />
+                
+                
 
                 <CustomInput
-                  placeholder={"Agrega una Tarea"}
+                  placeholder={"Aqui las Tareas familiares..."}
                   name="name_task"
                   type="text"
                   handler={taskHandler}
@@ -430,7 +450,7 @@ export const Profile = () => {
           {isAllTasks ? (
             <div className="allTasks">
               <div className="date_container">
-                <DatePicker
+                {/* <DatePicker
                   locale="es"
                   let
                   selected={taskDate}
@@ -442,7 +462,7 @@ export const Profile = () => {
                   showIcon
                   onChange={(date) => setTaskDate(date)}
                   //plugins={[<TimePicker hideSeconds />]}
-                />
+                /> */}
               </div>
               {taskFamilyDate.map((id, index) => (
                 <div

@@ -263,15 +263,24 @@ button {
   text-align: center;
   justify-content: center;
 }
-.btnNotification {
-  position: absolute;
-  background-color: red;
+.btnNotification2 {
+  position: absolute !important;
+  background-color: rgb(246, 91, 91);
   border-color: transparent transparent transparent;
   border-radius: 50%;
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.8em;
+  height: 1.8em;
   color: azure;
+  font-size: 0.9em !important;
   text-align: center;
-  margin-left: -2em;
-  margin-top: 1em;
+  margin-left: -1em !important;
+  margin-top: 2em !important;
+  text-shadow: 1px 1px 2px black;
 }
+/* .react-datepicker-wrapper{
+  display: flex !important;
+  flex-direction:column !important;
+  flex-Wrap: wrap !important;
+  justify-Content: center;
+  width: 5em;
+} */
