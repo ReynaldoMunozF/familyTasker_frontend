@@ -7,9 +7,10 @@ import {
   getTasksById,
   getFamilyById,
   updateUserById,
-  deleteAppointmentById,
-  updateScheduleById,
+  updateTaskById,
   createTask,
+  getTasksByFamilyIdAndDate,
+  deleteTaskById,
 } from "../../services/apiCalls";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { useSelector } from "react-redux";
@@ -33,6 +34,9 @@ import icon_user from "../../assets/img/user_icon.png";
 import icon_newUser from "../../assets/img/newUser_icon.png";
 import icon_list from "../../assets/img/list_icon.png";
 import icon_add from "../../assets/img/add_icon.png";
+import icon_list2 from "../../assets/img/list2_icon.png";
+import icon_check from "../../assets/img/check_icon.png";
+import icon_delete from "../../assets/img/delete_icon.png";
 
 //import DatePicker from "react-multi-date-picker";
 //import TimePicker from "react-multi-date-picker/plugins/time_picker";
@@ -52,14 +56,16 @@ export const Profile = () => {
     name_task: "",
   });
   const [isAllTasks, setIsAllTasks] = useState(false);
-  const [allTaskData, setAllTasksData] = useState([]);
+  //const [allTaskSelectDay, setAllTaskSelectDay] = useState([]);
   const [allFamilyTaskData, setAllFamilyTasksData] = useState([]);
+  const [taskFamilyDate, setAllTaskFamilyDateFamily] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isAlertTask, setIsAlertTask] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
-  const [appointmentData, setAppointmentData] = useState([]);
+  const [allTaskFamilyDate, setAllTaskFamilyDate] = useState([]);
   const userRdxData = useSelector(userData);
   const [startDate, setStartDate] = useState(new Date());
-  console.log(moment(startDate).format("DD-MM-YYYY HH:mm:ss"));
+  const [taskDate, setTaskDate] = useState(new Date());
 
   const [isTodo, setIsTodo] = useState(false);
   const [show, setShow] = useState(false);
@@ -67,10 +73,11 @@ export const Profile = () => {
   const token = userRdxData.credentials.token;
   const myId = userRdxData.credentials.userData?.user_id;
   const myFamilyId = userRdxData.credentials.userData?.families_id;
+  const myName = userRdxData.credentials.userData?.first_name;
 
-  console.log(userRdxData);
-  console.log(myId);
-  console.log(myFamilyId);
+  // console.log(userRdxData);
+  // console.log(myId);
+  console.log(myName);
 
   useEffect(() => {
     if (!token) {
@@ -89,9 +96,16 @@ export const Profile = () => {
 
   console.log(allFamilyTaskData);
 
-  const alltaskFamily = allFamilyTaskData?.tasks
-
+  const alltaskFamily = allFamilyTaskData?.tasks;
   console.log(alltaskFamily);
+
+  function sortByHour(arr) {
+    return arr.sort((a, b) => {
+      const hourA = parseInt(a.task_date.split(":")[0]);
+      const hourB = parseInt(b.task_date.split(":")[0]);
+      return hourA - hourB;
+    });
+  }
 
   const inputHandler = (event) => {
     setProfileDataUpdate((prevState) => ({
@@ -111,11 +125,6 @@ export const Profile = () => {
   const buttonHandler = () => {
     setIsEditing(!isEditing);
   };
-  const userAppointment = () => {
-    getAppointmentById(token, myId).then((res) => {
-      setAppointmentData(res);
-    });
-  };
 
   const isTodoStatus = () => {
     isTodo ? setIsTodo(false) : setIsTodo(true);
@@ -125,14 +134,8 @@ export const Profile = () => {
     isProfile ? setIsProfile(false) : setIsProfile(true);
   };
 
-  const deleteAppointment = (id, schedulesId) => {
-    deleteAppointmentById(token, id);
-    const updateActive = {
-      active: 1,
-    };
-
-    updateScheduleById(schedulesId, updateActive);
-    setisAppointment(false);
+  const isTasksStatus = () => {
+    isAllTasks ? setIsAllTasks(false) : setIsAllTasks(true);
   };
 
   const updateUser = () => {
@@ -152,32 +155,125 @@ export const Profile = () => {
     updateUserById(token, myId, profileDataUpdate);
     setIsEditing(false);
   };
+
+  useEffect(() => {
+    console.log(taskDate);
+    getTasksByFamilyIdAndDate(
+      myFamilyId,
+      moment(taskDate).format("YYYY-MM-DD")
+    ).then((res) => {
+      // setAllTaskFamilyDateFamily((prevDates) => [...prevDates,res])
+      setAllTaskFamilyDateFamily(res);
+    });
+  }, [taskDate]);
+
+  console.log(taskFamilyDate);
+
+  let countTaskActives = 0;
+  for (let index = 0; index < taskFamilyDate.length; index++) {
+    if (taskFamilyDate[index].status === "active") {
+      countTaskActives += 1;
+    }
+  }
+  console.log(countTaskActives);
+
+
   const tasksData = {
     users_id: myId,
     families_id: myFamilyId,
     name_task: taskData.name_task,
-    task_date: moment(startDate).format("YYYY-MM-DD HH:mm:ss"),
+    date: moment(startDate).format("YYYY-MM-DD"),
+    hour: moment(startDate).format("HH:ss"),
+    status: "active",
   };
-  const actualizarDatos = () => {
-    // Este useEffect se ejecutará cada vez que datos cambie
 
-    getTasksById(myId).then((res) => {
-      setAllTasksData(res);
-    });
-  };
   const newTask = () => {
-    createTask(tasksData);
-    // getTasksById(myId).then((res) => {
-    //   setAllTasksData(res);
-    // });
+    //const newttasksfinal = allTaskFamilyDate
+    if (taskData.name_task === "") {
+      return setIsAlertTask(true);
+    } else {
+      createTask(tasksData).then((restask) => {
+        restask.users_id = Number(restask.users_id);
+        (restask.task_date = moment(restask.task_date).format("HH:mm")),
+          setAllTaskFamilyDateFamily([...taskFamilyDate, restask]);
+
+        //allTaskFamilyDate.push(restask);
+        console.log(restask);
+
+        // window.location.reload();
+      });
+    }
+    console.log(allTaskFamilyDate);
+  };
+
+  const updateStatusTask = (idTask, statusTask) => {
+    console.log(statusTask);
+    let taskStatusData = "";
+    if (statusTask == "inactive") {
+      taskStatusData = {
+        status: "active",
+      };
+    } else if (statusTask == "active") {
+      taskStatusData = {
+        status: "inactive",
+      };
+    }
+    updateTaskById(idTask, taskStatusData)
+      .then(() => {
+        // Actualizar el estado de la tarea en la lista actual
+        const updatedTasks = taskFamilyDate.map((task) => {
+          if (task.id === idTask) {
+            return { ...task, status: taskStatusData.status };
+          }
+
+          console.log(task);
+          return task;
+        });
+
+        console.log(updatedTasks);
+        setAllTaskFamilyDateFamily(updatedTasks);
+      })
+      .catch((error) => {
+        console.error("Error updating task status:", error);
+        // Manejar el error si es necesario
+      });
+  };
+
+  const deleteTask = (taskId) => {
+    deleteTaskById(taskId)
+      .then(() => {
+        // Eliminar la tarea de la lista actual
+        const updatedTasks = taskFamilyDate.filter(
+          (task) => task.id !== taskId
+        );
+        setAllTaskFamilyDateFamily(updatedTasks);
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+        // Manejar el error si es necesario
+      });
   };
 
   return (
     <div className="profileDesign">
+      <br />
+      <div className="family_name">
+        <strong>{allFamilyTaskData.family_name?.toUpperCase()}</strong>
+      </div>
+      <br />
+      <div className="family_name">
+        Hola &nbsp; <strong>{myName?.toUpperCase()}</strong>&nbsp; que tenemos
+        para hoy
+      </div>
+      <br />
       <div className="profileData_container">
         <div className="icons_container">
           <div className="iconProfile">
             <img src={icon_user} alt="" onClick={() => isProfileStatus()} />
+          </div>
+          <div className="iconProfile">
+            <img src={icon_list2} alt="" onClick={() => isTasksStatus()} />
+            
           </div>
           <div className="iconProfile">
             <img src={icon_list} alt="" onClick={() => isTodoStatus()} />
@@ -297,9 +393,6 @@ export const Profile = () => {
                   selected={startDate}
                   dateFormat={"dd/MM/YYYY"}
                   minDate={new Date()}
-                  filterDate={(date) =>
-                    date.getDay() != 0 && date.getDay() != 6
-                  }
                   showIcon
                   onChange={(date) => setStartDate(date)}
                   //plugins={[<TimePicker hideSeconds />]}
@@ -325,15 +418,73 @@ export const Profile = () => {
                 ></CustomInput>
                 <img src={icon_add} onClick={() => newTask()} alt="" />
               </div>
+              {isAlertTask ? (
+                <div className="alert_task">
+                  * Debe ingresar el nombre de la tarea
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>
         <div className="table_container">
           {isAllTasks ? (
             <div className="allTasks">
-              {alltaskFamily.map((id, index) => (
-                <div className="allTasks_container">
-                  <p>{alltaskFamily[index]?.name_task}</p>
+              <div className="date_container">
+                <DatePicker
+                  locale="es"
+                  let
+                  selected={taskDate}
+                  dateFormat={"dd/MM/YYYY"}
+                  //minDate={new Date()}
+                  // filterDate={(date) =>
+                  //   date.getDay() != 0 && date.getDay() != 6
+                  // }
+                  showIcon
+                  onChange={(date) => setTaskDate(date)}
+                  //plugins={[<TimePicker hideSeconds />]}
+                />
+              </div>
+              {taskFamilyDate.map((id, index) => (
+                <div
+                  key={index}
+                  className={
+                    taskFamilyDate[index].users_id === 1
+                      ? taskFamilyDate[index].status === "active"
+                        ? "allTasks_container1_active"
+                        : "allTasks_container1_inactive"
+                      : taskFamilyDate[index].users_id === 2
+                      ? taskFamilyDate[index].status === "active"
+                        ? "allTasks_container2_active"
+                        : "allTasks_container1_inactive"
+                      : taskFamilyDate[index].status === "active"
+                      ? "active"
+                      : "inactive"
+                  }
+                >
+                  <div className="hour">
+                    <p>{taskFamilyDate[index].hour}</p>
+                  </div>
+
+                  <div className="task">
+                    <p>{taskFamilyDate[index]?.name_task}</p>
+                  </div>
+                  <div className="check_Task">
+                    <img
+                      src={icon_check}
+                      onClick={() =>
+                        updateStatusTask(
+                          taskFamilyDate[index].id,
+                          taskFamilyDate[index].status
+                        )
+                      }
+                      alt=""
+                    />
+                    <img
+                      src={icon_delete}
+                      onClick={() => deleteTask(taskFamilyDate[index].id)}
+                      alt=""
+                    />
+                  </div>
                 </div>
               ))}
             </div>

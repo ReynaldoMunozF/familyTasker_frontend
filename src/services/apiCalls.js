@@ -104,46 +104,49 @@ export const getTasksById = async ( id) => {
     throw error;
   }
 };
-export const getAllComplete = async (token ) => {
-  
+export const getTasksByFamilyIdAndDate = async ( id, date) => {
   try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const res = await axios.get(`${API_URL}appointments/all`, config);
-    return res.data;
+    // const config = {
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
+    const res = await axios.get(`${API_URL}tasks/${id}/${date}`);
+    return res.data.tasks;
   } catch (error) {
-    console.error("Error en appointments:", error);
+    console.error("Error en recibir tasks:", error);
     throw error;
   }
 };
 
-export const updateAppointmentById = async (token, id) => {
+
+export const updateTaskById = async (id,taskStatusData) => {
+
+  console.log(id);
+  console.log(taskStatusData);
   try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const res = await axios.patch(`${API_URL}appointments/${id}`, config);
+    // const config = {
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
+    const res = await axios.patch(`${API_URL}tasks/${id}`,taskStatusData);
     return res.data;
   } catch (error) {
-    console.error("Error en update_Appointment:", error);
+    console.error("Error en update_tasks:", error);
     throw error;
   }
 };
-export const deleteAppointmentById = async (token, id) => {
+export const deleteTaskById = async (id) => {
 
   
   try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const res = await axios.delete(`${API_URL}appointments/${id}`, config);
+    // const config = {
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
+    const res = await axios.delete(`${API_URL}tasks/${id}`);
     return res.data;
   } catch (error) {
     console.error("Error en delete_Appointment:", error);
@@ -161,37 +164,18 @@ export const createTask = async ( tasksData) => {
     // };
 
     const res = await axios.post(`${API_URL}tasks`,tasksData);
-    return res;
+    return res.data.newtasks;
   } catch (error) {
     console.error("Error en create tasks:", error);
     throw error;
   }
 };
 
-export const getAllArtist = async () => {
-  const res = await axios.get(`${API_URL}artist`);
-  return res.data;
-};
 
-export const getScheduleByIdArtist = async (id) => {
-  const res = await axios.get(`${API_URL}schedules/${id}`);
-  return res.data;
-};
 
-export const updateScheduleById = async (id, updateActive) => {
-  try {
-    // const config = {
-    //   headers: {
-    //     Authorization: "Bearer " + token,
-    //   },
-    // };
-    const res = await axios.patch(`${API_URL}schedules/${id}`, updateActive);
-    return res;
-  } catch (error) {
-    console.error("Error en update_Appointment:", error);
-    throw error;
-  }
-};
+
+
+
 
 
 
@@ -215,45 +199,6 @@ export const getFamilyById = async (id) => {
 };
 
 
-export const updateArtistById = async (token, id, artistData) => {
- 
-
-  try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-   
-    const res = await axios.patch(`${API_URL}artist/${id}`, artistData, config);
-    return res;
-  } catch (error) {
-    console.error("Error en update_Artist:");
-    throw error;
-  }
-};
-
-export const artistRegister = async (token, artistData) => {
-  
-  try {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-
-    const res = await axios.post(
-      `${API_URL}authArtist/register`,
-      artistData,
-      config
-    );
-    const data = res;
-    return data;
-  } catch (error) {
-    console.error("Error en la creación:", error);
-    throw error;
-  }
-};
 
 export const getAllUsers = async ( page, skip) => {
   try {

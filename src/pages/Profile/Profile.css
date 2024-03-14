@@ -159,17 +159,119 @@ button {
   display: flex;
   flex-direction: column;
 }
-.allTasks_container{
+
+.table_container{
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items:center;
-  background-color: #1bc29f;
+  align-items: center;
+}
+.allTasks_container1_active{
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items:baseline;
+  
+  /* border: 4px solid  #1bc29f;
+  background-color: #88decb; */
   width: 25em;
-  height: 3em;
-  color: #ffffff;
+  height: 5em;
+  color: #000000;
+  /* text-shadow: 1px 1px 2px black; */
   border-radius: 15px;
   padding: 0.5em;
   margin-top: 0.5em;
+  text-align: center;
+  box-shadow: 1px 1px 5px  #00b890;
 
+}
+.allTasks_container1_inactive{
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items:baseline;
+  text-decoration: line-through;
+  
+  /* border: 4px solid  #1bc29f;
+  background-color: #88decb; */
+  width: 25em;
+  height: 5em;
+  color: #ff0000;
+  /* text-shadow: 1px 1px 2px black; */
+  border-radius: 15px;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  text-align: center;
+  box-shadow: 1px 1px 5px  #757575;
+
+}
+.allTasks_container2_active{
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items:baseline;
+  /* border: 4px solid  #fd4b85;
+  background-color: #ffa3b2; */
+  width: 25em;
+  height: 5em;
+  color: #000000;
+  /* text-shadow: 1px 1px 2px black; */
+  border-radius: 15px;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  box-shadow: 1px 1px 5px  #e9778a;
+  	
+
+
+}
+.inputTask input{
+  display: flex;
+
+  width:4em;
+  
+  
+}
+
+.hour{
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  width: 3em;
+  height: 3.5em;
+  text-align: center;
+  font-size: 1.1em;
+}
+.task{
+  display: flex;
+  width: 18em;
+  height: 9.5em;
+  /* text-decoration: line-through; */
+
+  text-align: center;
+  font-size: 1em;
+}
+.alert_task{
+  text-align: center;
+  color: red;
+}
+.check_Task img{
+  width: 1em;
+  height: 1em;
+  margin: 0.1em;
+}
+.family_name{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.btnNotification {
+  position: absolute;
+  background-color: red;
+  border-color: transparent transparent transparent;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  color: azure;
+  text-align: center;
+  margin-left: -2em;
+  margin-top: 1em;
 }
