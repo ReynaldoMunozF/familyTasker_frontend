@@ -11,8 +11,8 @@ import {
   createTask,
   getTasksByFamilyIdAndDate,
   deleteTaskById,
+  getTasksByFamilyAndType,
 } from "../../services/apiCalls";
-import EmojiPicker from "emoji-picker-react";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { useSelector } from "react-redux";
 import es from "date-fns/locale/es";
@@ -28,7 +28,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import Table from "react-bootstrap/Table";
 import edit_button from "../../assets/img/edit_button.png";
 import icono_borrar from "../../assets/img/icono_borrar.png";
 import icon_user from "../../assets/img/user_icon.png";
@@ -38,8 +37,9 @@ import icon_add from "../../assets/img/add_icon.png";
 import icon_list2 from "../../assets/img/list2_icon.png";
 import icon_check from "../../assets/img/check_icon.png";
 import icon_delete from "../../assets/img/delete_icon.png";
-import 'react-datepicker/dist/react-datepicker-cssmodules.css'
-
+import icon_shop from "../../assets/img/shop_icon.png";
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import { MagicMotion } from "react-magic-motion";
 
 //import DatePicker from "react-multi-date-picker";
 //import TimePicker from "react-multi-date-picker/plugins/time_picker";
@@ -62,7 +62,10 @@ export const Profile = () => {
   //const [allTaskSelectDay, setAllTaskSelectDay] = useState([]);
   const [allFamilyTaskData, setAllFamilyTasksData] = useState([]);
   const [taskFamilyDate, setAllTaskFamilyDateFamily] = useState([]);
+  const [taskFamilyType, setAllTaskFamilyType] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isShop, setIsShop] = useState(true);
+  
   const [isNotification, setIsNotification] = useState(true);
   const [isAlertTask, setIsAlertTask] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
@@ -162,15 +165,27 @@ export const Profile = () => {
 
   useEffect(() => {
     console.log(taskDate);
+    const typeTask = "task";
     getTasksByFamilyIdAndDate(
       myFamilyId,
-      moment(taskDate).format("YYYY-MM-DD")
+      moment(taskDate).format("YYYY-MM-DD"),
+      typeTask
     ).then((res) => {
       setAllTaskFamilyDateFamily(res);
     });
   }, [taskDate]);
 
   console.log(taskFamilyDate);
+
+  useEffect(() => {
+    console.log(taskDate);
+    const typeTask = "shopping";
+    getTasksByFamilyAndType(myFamilyId, typeTask).then((res) => {
+      setAllTaskFamilyType(res);
+    });
+  }, [taskDate]);
+
+  console.log(taskFamilyType);
 
   let countTaskActives = 0;
   for (let index = 0; index < taskFamilyDate.length; index++) {
@@ -187,8 +202,34 @@ export const Profile = () => {
     date: moment(startDate).format("YYYY-MM-DD"),
     hour: moment(startDate).format("HH:ss"),
     status: "active",
+    type: "task",
+  };
+  const shopsData = {
+    users_id: myId,
+    families_id: myFamilyId,
+    name_task: taskData.name_task,
+    date: moment(startDate).format("YYYY-MM-DD"),
+    hour: moment(startDate).format("HH:ss"),
+    status: "active",
+    type: "shopping",
   };
 
+  const newShop = () => {
+    //const newttasksfinal = allTaskFamilyDate
+    if (shopsData.name_task === "") {
+      return setIsAlertTask(true);
+    } else {
+      createTask(shopsData).then((restask) => {
+        restask.users_id = Number(restask.users_id);
+        //(restask.task_date = moment(restask.task_date).format("HH:mm")),
+        setAllTaskFamilyType([...taskFamilyType, restask]);
+
+        //allTaskFamilyDate.push(restask);
+        console.log(restask);
+      });
+    }
+    console.log(allTaskFamilyDate);
+  };
   const newTask = () => {
     //const newttasksfinal = allTaskFamilyDate
     if (taskData.name_task === "") {
@@ -259,28 +300,31 @@ export const Profile = () => {
   return (
     <div className="profileDesign">
       <br />
-      <div className="family_name">
-        <strong>{allFamilyTaskData.family_name?.toUpperCase()}</strong>
-      </div>
-      <br />
-      <div className="family_name">
-        <p>
-          {" "}
-          Hola <strong>{myName?.toUpperCase()}</strong> <br />
-          ¡Bienvenid@ a nuestra lista de tareas familiares! <br /> ¡Aquí es
-          donde la magia familiar sucede! <br />
-          Listos para organizarnos juntos y hacer que cada día sea especial.{" "}
-          <br />
-          ¡A trabajar en equipo y crear recuerdos inolvidables! <br />
-          Escriban sus tareas, ¡vamos a hacerlas realidad juntos!"
-        </p>
-      </div>
-      <br />
+      <MagicMotion>
+        <div className="family_name">
+          <strong>{allFamilyTaskData.family_name?.toUpperCase()}</strong>
+        </div>
+        <br />
+        <div className="family_name">
+          <p>
+            {" "}
+            Hola <strong>{myName?.toUpperCase()}</strong> <br />
+            ¡Bienvenid@ a nuestra lista de tareas familiares! <br /> ¡Aquí es
+            donde la magia familiar sucede! <br />
+            Listos para organizarnos juntos y hacer que cada día sea especial.{" "}
+            <br />
+            ¡A trabajar en equipo y crear recuerdos inolvidables! <br />
+            Escriban sus tareas, ¡vamos a hacerlas realidad juntos!"
+          </p>
+        </div>
+        <br />
+      </MagicMotion>
       <div className="profileData_container">
         <div className="icons_container">
           <div className="iconProfile">
             <img src={icon_user} alt="" onClick={() => isProfileStatus()} />
           </div>
+
           <div className="iconProfile">
             <img
               src={icon_list2}
@@ -289,12 +333,13 @@ export const Profile = () => {
                 isTodoStatus(), isTasksStatus(), setIsNotification(false)
               )}
             />
+
             {isNotification ? (
               <button className="btnNotification2">{countTaskActives}</button>
             ) : null}
           </div>
           <div className="iconProfile">
-            <img src={icon_list} alt="" onClick={() => isTodoStatus()} />
+            <img src={icon_shop} alt="" onClick={() => isTodoStatus()} />
           </div>
           <div className="iconProfile">
             <img
@@ -307,6 +352,7 @@ export const Profile = () => {
             <img src={icono_contacto} alt="" />
           </div> */}
         </div>
+
         {isProfile ? (
           <Card style={{ width: "26rem" }}>
             <ListGroup variant="flush">
@@ -418,7 +464,7 @@ export const Profile = () => {
               </div>
               <div className="task_container">
                 <DatePicker
-                 className="prueba"
+                  className="prueba"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   showTimeSelect
@@ -427,8 +473,6 @@ export const Profile = () => {
                   timeCaption="hora"
                   dateFormat="h:mm aa"
                 />
-                
-                
 
                 <CustomInput
                   placeholder={"Aqui las Tareas familiares..."}
@@ -449,67 +493,78 @@ export const Profile = () => {
         <div className="table_container">
           {isAllTasks ? (
             <div className="allTasks">
-              <div className="date_container">
-                {/* <DatePicker
-                  locale="es"
-                  let
-                  selected={taskDate}
-                  dateFormat={"dd/MM/YYYY"}
-                  //minDate={new Date()}
-                  // filterDate={(date) =>
-                  //   date.getDay() != 0 && date.getDay() != 6
-                  // }
-                  showIcon
-                  onChange={(date) => setTaskDate(date)}
-                  //plugins={[<TimePicker hideSeconds />]}
-                /> */}
-              </div>
-              {taskFamilyDate.map((id, index) => (
-                <div
-                  key={index}
-                  className={
-                    taskFamilyDate[index].users_id === 1
-                      ? taskFamilyDate[index].status === "active"
-                        ? "allTasks_container1_active"
-                        : "allTasks_container1_inactive"
-                      : taskFamilyDate[index].users_id === 2
-                      ? taskFamilyDate[index].status === "active"
-                        ? "allTasks_container2_active"
-                        : "allTasks_container1_inactive"
-                      : taskFamilyDate[index].status === "active"
-                      ? "active"
-                      : "inactive"
-                  }
-                >
-                  <div className="hour">
-                    <p>{taskFamilyDate[index].hour}</p>
-                  </div>
-
-                  <div className="task">
-                    <p>{taskFamilyDate[index]?.name_task}</p>
-                  </div>
-                  <div className="check_Task">
-                    <img
-                      src={icon_check}
-                      onClick={() =>
-                        updateStatusTask(
-                          taskFamilyDate[index].id,
-                          taskFamilyDate[index].status
-                        )
-                      }
-                      alt=""
-                    />
-                    <img
-                      src={icon_delete}
-                      onClick={() => deleteTask(taskFamilyDate[index].id)}
-                      alt=""
-                    />
-                  </div>
+              <MagicMotion>
+                <div className="date_container">
                 </div>
-              ))}
+                {taskFamilyDate.map((id, index) => (
+                  <div
+                    key={index}
+                    className={
+                      taskFamilyDate[index].users_id === 1
+                        ? taskFamilyDate[index].status === "active"
+                          ? "allTasks_container1_active"
+                          : "allTasks_container1_inactive"
+                        : taskFamilyDate[index].users_id === 2
+                        ? taskFamilyDate[index].status === "active"
+                          ? "allTasks_container2_active"
+                          : "allTasks_container1_inactive"
+                        : taskFamilyDate[index].status === "active"
+                        ? "active"
+                        : "inactive"
+                    }
+                  >
+                    <div className="hour">
+                      <p>{taskFamilyDate[index].hour}</p>
+                    </div>
+
+                    <div className="task">
+                      <p>{taskFamilyDate[index]?.name_task}</p>
+                    </div>
+                    <div className="check_Task">
+                      <img
+                        src={icon_check}
+                        onClick={() =>
+                          updateStatusTask(
+                            taskFamilyDate[index].id,
+                            taskFamilyDate[index].status
+                          )
+                        }
+                        alt=""
+                      />
+                      <img
+                        src={icon_delete}
+                        onClick={() => deleteTask(taskFamilyDate[index].id)}
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                ))}
+              </MagicMotion>
             </div>
           ) : null}
         </div>
+        <div className="to_do_container">
+          {isShop ? (
+            <div className="todo_component">
+              <div className="date_container">
+
+                <CustomInput
+                  placeholder={"Aqui las Tareas familiares..."}
+                  name="name_task"
+                  type="text"
+                  handler={taskHandler}
+                ></CustomInput>
+                <img src={icon_add} onClick={() => newTask()} alt="" />
+              </div>
+              {isAlertTask ? (
+                <div className="alert_task">
+                  * Debe ingresar el nombre de la tarea
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+
         {/* <div className="btn_conatiner">
           <div className="imgBtn">
           

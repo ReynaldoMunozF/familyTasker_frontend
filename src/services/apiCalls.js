@@ -104,14 +104,28 @@ export const getTasksById = async ( id) => {
     throw error;
   }
 };
-export const getTasksByFamilyIdAndDate = async ( id, date) => {
+export const getTasksByFamilyIdAndDate = async ( id, date, type) => {
   try {
     // const config = {
     //   headers: {
     //     Authorization: "Bearer " + token,
     //   },
     // };
-    const res = await axios.get(`${API_URL}tasks/${id}/${date}`);
+    const res = await axios.get(`${API_URL}tasks/${id}/${date}/${type}`);
+    return res.data.tasks;
+  } catch (error) {
+    console.error("Error en recibir tasks:", error);
+    throw error;
+  }
+};
+export const getTasksByFamilyAndType = async ( id, type) => {
+  try {
+    // const config = {
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
+    const res = await axios.get(`${API_URL}tasks/${id}/${type}`);
     return res.data.tasks;
   } catch (error) {
     console.error("Error en recibir tasks:", error);

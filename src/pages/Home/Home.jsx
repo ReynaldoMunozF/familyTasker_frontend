@@ -26,6 +26,8 @@ import {
 } from "../../services/apiCalls";
 import { emailValidator, objectValidator } from "../../validator";
 import "./Home.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const Home = () => {
   const [credentials, setCredentials] = useState({
@@ -151,6 +153,7 @@ export const Home = () => {
 
   return (
     <div className="portada_principal">
+      
       <div className="first_container">
         {/* <div className="carousel_container">
           <Carousel>

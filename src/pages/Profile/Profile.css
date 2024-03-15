@@ -99,7 +99,7 @@ button {
 }
 .todo_component{
   display: flex;
-  flex-direction: column;
+  flex-direction:column;
   gap: 1em;
   
 }
@@ -160,8 +160,14 @@ button {
   flex-direction: column;
 }
 
+.allTasks{
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .table_container{
   display: flex;
+  
   justify-content: center;
   align-items: center;
 }
