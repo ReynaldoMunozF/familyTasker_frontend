@@ -33,8 +33,8 @@ export const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            {/* <Nav.Link href="personajes">Contacto</Nav.Link> */}
-            <Nav.Link href="artistLogin">Area Privada</Nav.Link>
+          
+           
             
             <NavDropdown  className="navdrop" title="Mi cuenta"  id="basic-nav-dropdown">
               {!token ? (

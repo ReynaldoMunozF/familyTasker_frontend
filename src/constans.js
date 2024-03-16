@@ -18,7 +18,7 @@
       { id: '15', name: 'Plátano', url: 'https://cdn-icons-png.flaticon.com/128/4953/4953106.png' },
       { id: '16', name: 'Nata', url: 'https://cdn-icons-png.flaticon.com/128/4383/4383510.png' },
       { id: '17', name: 'Yogur natural', url: 'https://cdn-icons-png.flaticon.com/128/8490/8490578.png' },
-      { id: '18', name: 'Leche entera', url: 'https://www.flaticon.es/icono-gratis/leche_372973' },
+      { id: '18', name: 'Leche entera', url: 'https://cdn-icons-png.flaticon.com/128/5125/5125512.png' },
       { id: '19', name: 'Huevos', url: 'https://cdn-icons-png.flaticon.com/128/3142/3142512.png' },
       { id: '20', name: 'Galletas integrales', url: 'https://cdn-icons-png.flaticon.com/128/541/541732.png' }
     ];

@@ -122,6 +122,7 @@ button {
 
 .task_container{
   display: flex;
+ 
   gap: 0.2em;
   
 }
@@ -152,8 +153,11 @@ button {
 .prueba{
   display: flex;
   flex-direction: column;
-  width: 5em !important;
-  font-size: 0.9em !important;
+  width: 4.6em !important;
+  height: 2em !important;
+  font-size: 1.2em !important;
+  font-weight: bold;
+  justify-content: center;
 }
 .react-datepicker__input-container{
   display: flex;
@@ -245,19 +249,26 @@ button {
   height: 3.5em;
   text-align: center;
   font-size: 1.1em;
+  font-weight: bold;
 }
 .task{
   display: flex;
-  width: 18em;
+  width: 16em;
   height: 9.5em;
-  /* text-decoration: line-through; */
-
   text-align: center;
   font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .alert_task{
+  display: flex;
   text-align: center;
   color: red;
+  justify-content: center;
+}
+.alert_task img{
+  width: 1em;
+  height: 1em;
+  margin-left: 1em;
 }
 .check_Task img{
   width: 1em;
@@ -323,4 +334,45 @@ button {
   display: flex;
   width: 1em;
   height: 1em;
+} 
+
+.shop_component{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
 }
+.allShop_container{
+  display: flex;
+  background-color: #feffff;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px;
+  box-shadow: 1px 1px 5px  #757575;
+
+
+} 
+
+.shop_container{
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+.shop_container2{
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+
+.check_shop{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shopname{
+  display: flex;
+  justify-content: center;
+} 

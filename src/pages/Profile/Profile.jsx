@@ -53,26 +53,25 @@ export const Profile = () => {
     first_name: "",
     last_name: "",
     email: "",
-    phone: "",
     birthday: "",
   });
   const [taskData, setTaskData] = useState({
     name_task: "",
   });
   const [isAllTasks, setIsAllTasks] = useState(false);
-  //const [allTaskSelectDay, setAllTaskSelectDay] = useState([]);
   const [allFamilyTaskData, setAllFamilyTasksData] = useState([]);
   const [taskFamilyDate, setAllTaskFamilyDateFamily] = useState([]);
   const [taskFamilyType, setAllTaskFamilyType] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isShop, setIsShop] = useState(true);
-
+  const [isShop, setIsShop] = useState(false);
   const [isNotification, setIsNotification] = useState(true);
   const [isAlertTask, setIsAlertTask] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
   const [allTaskFamilyDate, setAllTaskFamilyDate] = useState([]);
   const userRdxData = useSelector(userData);
   const [startDate, setStartDate] = useState(new Date());
+  const [startHour, setStartHour] = useState("");
+  console.log(startHour);
   const [taskDate, setTaskDate] = useState(new Date());
 
   const [isTodo, setIsTodo] = useState(false);
@@ -90,22 +89,24 @@ export const Profile = () => {
 
   // console.log(userRdxData);
   // console.log(myId);
-  console.log(myName);
+  
 
   useEffect(() => {
+    
     if (!token) {
       navigate("/register");
     } else {
-      setTimeout(() => {
+      
         getUserById(token, myId).then((res) => {
           setProfileData(res);
         });
         getFamilyById(myFamilyId).then((res) => {
           setAllFamilyTasksData(res);
         });
-      }, 100);
+       
     }
   }, []);
+
 
   console.log(allFamilyTaskData);
 
@@ -127,9 +128,6 @@ export const Profile = () => {
     }));
   };
 
-  // const handleProductChange = (event) => {
-  //   setSelectedProduct(event.target.value);
-  // };
 
   const taskHandler = (event) => {
     setTaskData((prevState) => ({
@@ -141,10 +139,9 @@ export const Profile = () => {
   const shopHandler = (event) => {
     let imgShopUrl = "";
     for (let index = 0; index < foodProducts.length; index++) {
-      if(foodProducts[index].name === event.target.value){
-        imgShopUrl = foodProducts[index].url
-        setUrlShop(imgShopUrl)
-
+      if (foodProducts[index].name === event.target.value) {
+        imgShopUrl = foodProducts[index].url;
+        setUrlShop(imgShopUrl);
       }
     }
     setShopData((prevState) => ({
@@ -152,8 +149,6 @@ export const Profile = () => {
       [event.target.name]: event.target.value,
     }));
   };
-
-console.log(urlShop);
 
   useEffect(() => {}, [profileDataUpdate]);
 
@@ -171,6 +166,9 @@ console.log(urlShop);
 
   const isTasksStatus = () => {
     isAllTasks ? setIsAllTasks(false) : setIsAllTasks(true);
+  };
+  const isShopStatus = () => {
+    isShop ? setIsShop(false) : setIsShop(true);
   };
 
   const updateUser = () => {
@@ -203,8 +201,6 @@ console.log(urlShop);
     });
   }, [taskDate]);
 
-  console.log(taskFamilyDate);
-
   useEffect(() => {
     console.log(taskDate);
     const typeTask = "shopping";
@@ -213,13 +209,12 @@ console.log(urlShop);
     });
   }, [taskDate]);
 
-  console.log(taskFamilyType);
-
   let countTaskActives = 0;
   for (let index = 0; index < taskFamilyDate.length; index++) {
     if (taskFamilyDate[index].status === "active") {
       countTaskActives += 1;
     }
+   
   }
   console.log(countTaskActives);
 
@@ -228,7 +223,7 @@ console.log(urlShop);
     families_id: myFamilyId,
     name_task: taskData.name_task,
     date: moment(startDate).format("YYYY-MM-DD"),
-    hour: moment(startDate).format("HH:ss"),
+    hour: startHour,
     status: "active",
     type: "task",
   };
@@ -243,7 +238,7 @@ console.log(urlShop);
   };
 
   const newShop = () => {
-    //const newttasksfinal = allTaskFamilyDate
+   
     if (shopsData.name_task === "") {
       return setIsAlertTask(true);
     } else {
@@ -259,7 +254,7 @@ console.log(urlShop);
     console.log(allTaskFamilyDate);
   };
   const newTask = () => {
-    //const newttasksfinal = allTaskFamilyDate
+    
     if (taskData.name_task === "") {
       return setIsAlertTask(true);
     } else {
@@ -381,7 +376,7 @@ console.log(urlShop);
             ) : null}
           </div>
           <div className="iconProfile">
-            <img src={icon_shop} alt="" onClick={() => isTodoStatus()} />
+            <img src={icon_shop} alt="" onClick={() => isShopStatus()} />
           </div>
           <div className="iconProfile">
             <img
@@ -431,17 +426,7 @@ console.log(urlShop);
                   handler={inputHandler}
                 ></CustomInput>
               </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Teléfono:</strong>{" "}
-                <CustomInput
-                  placeholder={profileData.phone}
-                  statusDisabled={!isEditing}
-                  statusFocus={!isEditing}
-                  name="phone"
-                  type="text"
-                  handler={inputHandler}
-                ></CustomInput>
-              </ListGroup.Item>
+
               <ListGroup.Item>
                 <strong>Fecha Nacimiento:</strong>
                 <CustomInput
@@ -505,7 +490,7 @@ console.log(urlShop);
                 />
               </div>
               <div className="task_container">
-                <DatePicker
+                {/* <DatePicker
                   className="prueba"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
@@ -514,6 +499,13 @@ console.log(urlShop);
                   timeIntervals={15}
                   timeCaption="hora"
                   dateFormat="h:mm aa"
+                /> */}
+                <input
+                  className="prueba"
+                  type="time"
+                  name="hour"
+                  onChange={(event) => setStartHour(event.target.value)}
+                  //value={moment(startDate).format("hh:mm")}
                 />
 
                 <CustomInput
@@ -526,7 +518,20 @@ console.log(urlShop);
               </div>
               {isAlertTask ? (
                 <div className="alert_task">
-                  * Debe ingresar el nombre de la tarea
+                  <i
+                    className="em em-bird"
+                    aria-role="presentation"
+                    aria-label="BIRD"
+                  ></i>
+                  <p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Debe ingresar el nombre de la tarea
+                  </p>
+
+                  <img
+                    src={icon_delete}
+                    onClick={() => setIsAlertTask(false)}
+                    alt=""
+                  />
                 </div>
               ) : null}
             </div>
@@ -554,12 +559,21 @@ console.log(urlShop);
                         : "inactive"
                     }
                   >
+                    <i
+                      className="em em-memo"
+                      aria-role="presentation"
+                      aria-label="MEMO"
+                    ></i>
                     <div className="hour">
                       <p>{taskFamilyDate[index].hour}</p>
                     </div>
 
                     <div className="task">
-                      <p>{taskFamilyDate[index]?.name_task}</p>
+                      <p>
+                        {" "}
+                        &nbsp;&nbsp;
+                        {taskFamilyDate[index]?.name_task}
+                      </p>
                     </div>
                     <div className="check_Task">
                       <img
@@ -584,58 +598,70 @@ console.log(urlShop);
             </div>
           ) : null}
         </div>
-        <div className="to_do_container">
-          {isShop ? (
-            <div className="todo_component">
-              <div>
-                <label htmlFor="productos">Selecciona un producto:</label>
-                <select
-                  id="productos"
-                  name="name_task"
-                  value={shopData}
-                  onChange={shopHandler}
-                >
-                  <option value="">Selecciona un producto</option>
-                  {foodProducts.map((producto) => (
-                    <option key={producto.id} value={producto.name}>
-                      {producto.name}
-                    </option>
-                  ))}
-                </select>
-                <p>Producto seleccionado: {shopData.name_task}</p>
-                <button onClick={() => newShop()}>Agregar a la lista</button>
-              </div>
-              {isAlertTask ? (
-                <div className="alert_task">
-                  * Debe ingresar el nombre de la tarea
+        <div className="shop_container_principal">
+          <div className="shop_component">
+            {isShop ? (
+              <div className="select_component">
+                <div className="shop_component">
+                  <label>Comprar:</label>
+                  <select
+                    id="productos"
+                    name="name_task"
+                    value={shopData}
+                    onChange={shopHandler}
+                  >
+                    <option value="">Selecciona un producto</option>
+                    {foodProducts.map((producto) => (
+                      <option key={producto.id} value={producto.name}>
+                        {producto.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p>
+                    <strong>{shopData.name_task}</strong>
+                  </p>
+                  <Button
+                    onClick={() => (newShop(), setIsAlertTask(false))}
+                    variant="warning"
+                  >
+                    Agregar a la lista
+                  </Button>{" "}
                 </div>
-              ) : null}
+                {isAlertTask ? (
+                  <div className="alert_task">
+                    * Debe ingresar el nombre de la tarea
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+          <br />
+          {isShop ? (
+            <div className="allShop_container">
+              <div className="allShop">
+                <MagicMotion>
+                  <div className="shop_container"></div>
+                  {taskFamilyType.map((id, index) => (
+                    <div key={index} className="shop_container2">
+                      <div className="shopname">
+                        <p>{taskFamilyType[index]?.name_task}</p>
+                      </div>
+                      <div className="shopimg">
+                        <img src={taskFamilyType[index].url} alt="" />
+                      </div>
+                      <div className="check_shop">
+                        <img
+                          src={icon_delete}
+                          onClick={() => deleteShop(taskFamilyType[index].id)}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </MagicMotion>
+              </div>
             </div>
           ) : null}
-        </div>
-        <div className="table_container">
-          <div className="allShop">
-            <MagicMotion>
-              <div className="shop_container"></div>
-              {taskFamilyType.map((id, index) => (
-                <div key={index} className="shop_container2">
-                  <div className="shopname">
-                    <p>{taskFamilyType[index]?.name_task}</p>
-                  </div>
-                  <div className="shopimg">
-                    <img src={taskFamilyType[index].url} alt="" />
-                  </div>
-                  <div className="check_shop">
-                    <img
-                      src={icon_delete}
-                      onClick={() => deleteShop(taskFamilyType[index].id)}
-                      alt=""
-                    />
-                  </div>
-                </div>
-              ))}
-            </MagicMotion>
-          </div>
         </div>
 
         {/* <div className="btn_conatiner">
