@@ -26,8 +26,7 @@ import {
 } from "../../services/apiCalls";
 import { emailValidator, objectValidator } from "../../validator";
 import "./Home.css";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 
 export const Home = () => {
   const [credentials, setCredentials] = useState({

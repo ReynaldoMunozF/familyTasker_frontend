@@ -283,10 +283,44 @@ button {
   margin-top: 2em !important;
   text-shadow: 1px 1px 2px black;
 }
-/* .react-datepicker-wrapper{
-  display: flex !important;
-  flex-direction:column !important;
-  flex-Wrap: wrap !important;
-  justify-Content: center;
+
+.allShop{
+  display: flex;
+  flex-direction:column-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+.shop_container{
+  display: flex;
+  flex-direction: row;
+  width: 20em;;
+}
+.shop_container2{
+  display: flex;
+}
+
+.shopname{
+  display: flex;
+  width: 12em;
+}
+.shopimg{
+  display: flex;
   width: 5em;
-} */
+  height: 3em;
+}
+.shopimg img{
+  display: flex;
+  width: 3em;
+  height: 3em;
+}
+.check_shop{
+  display: flex;
+  width: 4em;
+  height: 4em;
+}
+.check_shop img{
+  display: flex;
+  width: 1em;
+  height: 1em;
+}

@@ -40,6 +40,7 @@ import icon_delete from "../../assets/img/delete_icon.png";
 import icon_shop from "../../assets/img/shop_icon.png";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import { MagicMotion } from "react-magic-motion";
+import { foodProducts } from "../../constans";
 
 //import DatePicker from "react-multi-date-picker";
 //import TimePicker from "react-multi-date-picker/plugins/time_picker";
@@ -65,7 +66,7 @@ export const Profile = () => {
   const [taskFamilyType, setAllTaskFamilyType] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [isShop, setIsShop] = useState(true);
-  
+
   const [isNotification, setIsNotification] = useState(true);
   const [isAlertTask, setIsAlertTask] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
@@ -76,6 +77,11 @@ export const Profile = () => {
 
   const [isTodo, setIsTodo] = useState(false);
   const [show, setShow] = useState(false);
+  const [shopData, setShopData] = useState({
+    name_task: "",
+  });
+  console.log(shopData);
+  const [urlShop, setUrlShop] = useState("");
 
   const token = userRdxData.credentials.token;
   const myId = userRdxData.credentials.userData?.user_id;
@@ -120,12 +126,34 @@ export const Profile = () => {
       [event.target.name]: event.target.value,
     }));
   };
+
+  // const handleProductChange = (event) => {
+  //   setSelectedProduct(event.target.value);
+  // };
+
   const taskHandler = (event) => {
     setTaskData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
     }));
   };
+
+  const shopHandler = (event) => {
+    let imgShopUrl = "";
+    for (let index = 0; index < foodProducts.length; index++) {
+      if(foodProducts[index].name === event.target.value){
+        imgShopUrl = foodProducts[index].url
+        setUrlShop(imgShopUrl)
+
+      }
+    }
+    setShopData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+console.log(urlShop);
 
   useEffect(() => {}, [profileDataUpdate]);
 
@@ -207,10 +235,10 @@ export const Profile = () => {
   const shopsData = {
     users_id: myId,
     families_id: myFamilyId,
-    name_task: taskData.name_task,
-    date: moment(startDate).format("YYYY-MM-DD"),
-    hour: moment(startDate).format("HH:ss"),
+    name_task: shopData.name_task,
+    date: moment(new Date()).format("YYYY-MM-DD"),
     status: "active",
+    url: urlShop,
     type: "shopping",
   };
 
@@ -290,6 +318,20 @@ export const Profile = () => {
           (task) => task.id !== taskId
         );
         setAllTaskFamilyDateFamily(updatedTasks);
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+        // Manejar el error si es necesario
+      });
+  };
+  const deleteShop = (taskId) => {
+    deleteTaskById(taskId)
+      .then(() => {
+        // Eliminar la tarea de la lista actual
+        const updatedTasks = taskFamilyType.filter(
+          (task) => task.id !== taskId
+        );
+        setAllTaskFamilyType(updatedTasks);
       })
       .catch((error) => {
         console.error("Error deleting task:", error);
@@ -494,8 +536,7 @@ export const Profile = () => {
           {isAllTasks ? (
             <div className="allTasks">
               <MagicMotion>
-                <div className="date_container">
-                </div>
+                <div className="date_container"></div>
                 {taskFamilyDate.map((id, index) => (
                   <div
                     key={index}
@@ -546,15 +587,23 @@ export const Profile = () => {
         <div className="to_do_container">
           {isShop ? (
             <div className="todo_component">
-              <div className="date_container">
-
-                <CustomInput
-                  placeholder={"Aqui las Tareas familiares..."}
+              <div>
+                <label htmlFor="productos">Selecciona un producto:</label>
+                <select
+                  id="productos"
                   name="name_task"
-                  type="text"
-                  handler={taskHandler}
-                ></CustomInput>
-                <img src={icon_add} onClick={() => newTask()} alt="" />
+                  value={shopData}
+                  onChange={shopHandler}
+                >
+                  <option value="">Selecciona un producto</option>
+                  {foodProducts.map((producto) => (
+                    <option key={producto.id} value={producto.name}>
+                      {producto.name}
+                    </option>
+                  ))}
+                </select>
+                <p>Producto seleccionado: {shopData.name_task}</p>
+                <button onClick={() => newShop()}>Agregar a la lista</button>
               </div>
               {isAlertTask ? (
                 <div className="alert_task">
@@ -563,6 +612,30 @@ export const Profile = () => {
               ) : null}
             </div>
           ) : null}
+        </div>
+        <div className="table_container">
+          <div className="allShop">
+            <MagicMotion>
+              <div className="shop_container"></div>
+              {taskFamilyType.map((id, index) => (
+                <div key={index} className="shop_container2">
+                  <div className="shopname">
+                    <p>{taskFamilyType[index]?.name_task}</p>
+                  </div>
+                  <div className="shopimg">
+                    <img src={taskFamilyType[index].url} alt="" />
+                  </div>
+                  <div className="check_shop">
+                    <img
+                      src={icon_delete}
+                      onClick={() => deleteShop(taskFamilyType[index].id)}
+                      alt=""
+                    />
+                  </div>
+                </div>
+              ))}
+            </MagicMotion>
+          </div>
         </div>
 
         {/* <div className="btn_conatiner">
