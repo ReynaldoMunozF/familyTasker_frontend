@@ -1,0 +1,16 @@
+.profile_famiky_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+p{
+    text-align: center;
+}
+.imgEdit{
+
+    position: relative;
+    width: 2em;
+    margin-left: 17em;
+}

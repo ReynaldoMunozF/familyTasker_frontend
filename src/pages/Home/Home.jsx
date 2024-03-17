@@ -103,8 +103,6 @@ export const Home = () => {
   const newFamilyRegister = () => {
   familyRegister (familyData)
   .then((familyResponse) => {
-    console.log('pinto aca');
-    console.log(familyResponse);
     userDataRegister.families_id = familyResponse.data.newFamily.id;
     setIsFamily(false) ;
     setIsRegister(true);
@@ -119,7 +117,7 @@ export const Home = () => {
     if (!emailValidator(userDataRegister.email)) {
       return setIsAlertMail(true);
     }
-    // const newRegister = () => {
+  
   
     
       userRegister(userDataRegister)
@@ -154,19 +152,7 @@ export const Home = () => {
     <div className="portada_principal">
       
       <div className="first_container">
-        {/* <div className="carousel_container">
-          <Carousel>
-            <Carousel.Item>
-              <img src={promo_1} alt="" />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img src={promo_2} alt="" />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img src={promo_3} alt="" />
-            </Carousel.Item>
-          </Carousel>
-        </div> */}
+       
         <div className="img_principal">
         <img src={img1} alt="" />
         </div>
@@ -282,7 +268,7 @@ export const Home = () => {
           "FamilyTasker es una aplicación de gestión de tareas diseñada para ayudar a las familias a organizar y coordinar sus responsabilidades diarias de manera efectiva. Ya sea que se trate de tareas domésticas, actividades escolares o eventos familiares, FamilyTask simplifica la planificación y la ejecución de tareas al proporcionar una plataforma centralizada para la colaboración y la comunicación dentro de la familia."
         </p>
       </div>
-      <div className="img_galery">
+      {/* <div className="img_galery">
         <section>
           <img src={img9} alt="" />
           <img src={img10} alt="" />
@@ -290,9 +276,9 @@ export const Home = () => {
           <img src={img12} alt="" />
           <img src={img13} alt="" />
         </section>
-      </div>
+      </div> */}
 
-      <div className="commit_container">
+      {/* <div className="commit_container">
         <div className="commit_text">
           <p>
             En <strong>King Tattoo</strong>, nos enorgullece compartir las
@@ -320,9 +306,9 @@ export const Home = () => {
             commit={
               "¡Me encanta mi nuevo tatuaje! El equipo fue increíblemente amable y servicial durante todo el proceso. Desde el diseño inicial hasta la sesión de tatuaje, me sentí en buenas manos. Definitivamente regresaré para mi próximo proyecto."
             }
-          />
-        </div>
-      </div>
+          /> */}
+        {/* </div> */}
+      {/* </div> */}
       
     </div>
   );

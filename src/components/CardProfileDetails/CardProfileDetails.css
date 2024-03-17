@@ -1,0 +1,22 @@
+.cardProfile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20em;    
+    height: 4.5em;
+    
+}
+.datesUser{
+    display: flex;
+    gap: 2em;
+}
+
+.datesUser img{
+    width: 3em;
+
+}
+.datesUser input{
+    border-color: transparent transparent;
+    width: 15em;
+
+}

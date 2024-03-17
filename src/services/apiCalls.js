@@ -18,6 +18,7 @@ export const userLogin = async (credentials) => {
 };
 
 export const getUserById = async (token, id) => {
+  console.log(id);
   try {
     const config = {
       headers: {
@@ -27,7 +28,7 @@ export const getUserById = async (token, id) => {
     const res = await axios.get(`${API_URL}users/${id}`, config);
     return res.data;
   } catch (error) {
-    console.error("Error en el login:", error);
+    console.error("Error en traer usuarios:", error);
     throw error;
   }
 };
@@ -60,6 +61,7 @@ export const userRegister = async (userData) => {
   }
 };
 export const updateUserById = async (token, id, userData) => {
+  console.log(userData);
   try {
     const config = {
       headers: {
@@ -73,9 +75,27 @@ export const updateUserById = async (token, id, userData) => {
     throw error;
   }
 };
-export const deleteUserById = async (id,token) => {
-  
+export const updateUserDetailsById = async (token, id, userData) => {
+  console.log(userData);
+  try {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const res = await axios.patch(`${API_URL}userDetails/${id}`, userData, config);
+    return res;
+  } catch (error) {
+    console.error("Error en update_User:", userData);
+    throw error;
+  }
+};
 
+
+
+
+
+export const deleteUserById = async (id,token) => {
   try {
     const config = {
       headers: {
