@@ -4,12 +4,9 @@ import { useSelector } from "react-redux";
 import { userData } from "../userSlice";
 import Accordion from "react-bootstrap/Accordion";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
-import { emailValidator, objectValidator } from "../../validator";
-
 import "./ProfileDetails.css";
 
 import {
-  getAllUsers,
   getUserById,
   getFamilyById,
   userRegister,
@@ -71,9 +68,6 @@ export const ProfileDetails = () => {
     }
   }, []);
 
-  console.log(profileData);
-  console.log(allFamilyTaskData.user);
-
   const inputHandler = (event) => {
     setProfileDataUpdate((prevState) => ({
       ...prevState,
@@ -86,7 +80,6 @@ export const ProfileDetails = () => {
       [event.target.name]: event.target.value,
     }));
   };
-  console.log(userDetailsUpdate);
 
   const buttonHandler = () => {
     setIsEditing(!isEditing);
@@ -103,7 +96,6 @@ export const ProfileDetails = () => {
     userRegister(userDataRegister);
   };
 
-  //console.log(numberFamily);
   useEffect(() => {
     const fetchData = async () => {
       const promises = [];
@@ -118,11 +110,10 @@ export const ProfileDetails = () => {
   }, [allFamilyTaskData]);
 
   const updateUser = (idUser) => {
-
     getUserById(token, idUser).then((res) => {
       setProfileDataUser(res);
     });
-  
+
     if (profileDataUpdate.first_name == "") {
       profileDataUpdate.first_name = profileData.first_name;
     }
@@ -135,13 +126,13 @@ export const ProfileDetails = () => {
     if (profileDataUpdate.email == "") {
       profileDataUpdate.email = profileDataUser.email;
     }
-    
+
     updateUserById(token, idUser, profileDataUpdate);
     setIsEditing(false);
   };
 
   const updateUserDetails = (idUser) => {
-    if (userDetailsUpdate.weight== "") {
+    if (userDetailsUpdate.weight == "") {
       userDetailsUpdate.weight = "pendiente";
     }
     if (userDetailsUpdate.height == "") {
@@ -159,7 +150,7 @@ export const ProfileDetails = () => {
     if (userDetailsUpdate.allergies == "") {
       userDetailsUpdate.allergies = "pendiente";
     }
-    updateUserDetailsById(token, idUser,userDetailsUpdate );
+    updateUserDetailsById(token, idUser, userDetailsUpdate);
     setIsEditing(false);
   };
 
@@ -353,7 +344,12 @@ export const ProfileDetails = () => {
                 <div className="buttons_edit">
                   <Button
                     variant="outline-success"
-                    onClick={() => updateUser((allFamilys[index].id),updateUserDetails(allFamilys[index].id))}
+                    onClick={() =>
+                      updateUser(
+                        allFamilys[index].id,
+                        updateUserDetails(allFamilys[index].id)
+                      )
+                    }
                   >
                     Guardar
                   </Button>

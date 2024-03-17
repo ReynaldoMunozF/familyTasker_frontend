@@ -2,12 +2,8 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/";
 
-
-
 export const userLogin = async (credentials) => {
- 
   try {
-
     const res = await axios.post(`${API_URL}authUser/login`, credentials, {});
     const token = res.data.token;
     return token;
@@ -18,7 +14,6 @@ export const userLogin = async (credentials) => {
 };
 
 export const getUserById = async (token, id) => {
-  console.log(id);
   try {
     const config = {
       headers: {
@@ -33,12 +28,7 @@ export const getUserById = async (token, id) => {
   }
 };
 
-
 export const familyRegister = async (familyData) => {
-
-  console.log('entro aqui');
-  console.log(familyData);
-
   try {
     const res = await axios.post(`${API_URL}families`, familyData, {});
     const data = res;
@@ -49,8 +39,6 @@ export const familyRegister = async (familyData) => {
   }
 };
 export const userRegister = async (userData) => {
-  console.log(userData);
-
   try {
     const res = await axios.post(`${API_URL}authUser/register`, userData, {});
     const data = res;
@@ -61,7 +49,6 @@ export const userRegister = async (userData) => {
   }
 };
 export const updateUserById = async (token, id, userData) => {
-  console.log(userData);
   try {
     const config = {
       headers: {
@@ -76,14 +63,17 @@ export const updateUserById = async (token, id, userData) => {
   }
 };
 export const updateUserDetailsById = async (token, id, userData) => {
-  console.log(userData);
   try {
     const config = {
       headers: {
         Authorization: "Bearer " + token,
       },
     };
-    const res = await axios.patch(`${API_URL}userDetails/${id}`, userData, config);
+    const res = await axios.patch(
+      `${API_URL}userDetails/${id}`,
+      userData,
+      config
+    );
     return res;
   } catch (error) {
     console.error("Error en update_User:", userData);
@@ -91,18 +81,14 @@ export const updateUserDetailsById = async (token, id, userData) => {
   }
 };
 
-
-
-
-
-export const deleteUserById = async (id,token) => {
+export const deleteUserById = async (id, token) => {
   try {
     const config = {
       headers: {
         Authorization: "Bearer " + token,
       },
     };
-    const res = await axios.delete(`${API_URL}users/${id}`,config);
+    const res = await axios.delete(`${API_URL}users/${id}`, config);
     return res;
   } catch (error) {
     console.error("Error en update_User:", userData);
@@ -110,7 +96,7 @@ export const deleteUserById = async (id,token) => {
   }
 };
 
-export const getTasksById = async ( id) => {
+export const getTasksById = async (id) => {
   try {
     // const config = {
     //   headers: {
@@ -124,7 +110,7 @@ export const getTasksById = async ( id) => {
     throw error;
   }
 };
-export const getTasksByFamilyIdAndDate = async ( id, date, type) => {
+export const getTasksByFamilyIdAndDate = async (id, date, type) => {
   try {
     // const config = {
     //   headers: {
@@ -138,7 +124,7 @@ export const getTasksByFamilyIdAndDate = async ( id, date, type) => {
     throw error;
   }
 };
-export const getTasksByFamilyAndType = async ( id, type) => {
+export const getTasksByFamilyAndType = async (id, type) => {
   try {
     // const config = {
     //   headers: {
@@ -153,18 +139,14 @@ export const getTasksByFamilyAndType = async ( id, type) => {
   }
 };
 
-
-export const updateTaskById = async (id,taskStatusData) => {
-
-  console.log(id);
-  console.log(taskStatusData);
+export const updateTaskById = async (id, taskStatusData) => {
   try {
     // const config = {
     //   headers: {
     //     Authorization: "Bearer " + token,
     //   },
     // };
-    const res = await axios.patch(`${API_URL}tasks/${id}`,taskStatusData);
+    const res = await axios.patch(`${API_URL}tasks/${id}`, taskStatusData);
     return res.data;
   } catch (error) {
     console.error("Error en update_tasks:", error);
@@ -172,8 +154,6 @@ export const updateTaskById = async (id,taskStatusData) => {
   }
 };
 export const deleteTaskById = async (id) => {
-
-  
   try {
     // const config = {
     //   headers: {
@@ -188,8 +168,7 @@ export const deleteTaskById = async (id) => {
   }
 };
 
-export const createTask = async ( tasksData) => {
-  console.log(tasksData);
+export const createTask = async (tasksData) => {
   try {
     // const config = {
     //   headers: {
@@ -197,7 +176,7 @@ export const createTask = async ( tasksData) => {
     //   },
     // };
 
-    const res = await axios.post(`${API_URL}tasks`,tasksData);
+    const res = await axios.post(`${API_URL}tasks`, tasksData);
     return res.data.newtasks;
   } catch (error) {
     console.error("Error en create tasks:", error);
@@ -205,19 +184,9 @@ export const createTask = async ( tasksData) => {
   }
 };
 
-
-
-
-
-
-
-
-
 // <--------------------------------------------------------------------------------------------
 
-
 export const getFamilyById = async (id) => {
-
   try {
     // const config = {
     //   headers: {
@@ -232,9 +201,7 @@ export const getFamilyById = async (id) => {
   }
 };
 
-
-
-export const getAllUsers = async ( page, skip) => {
+export const getAllUsers = async (page, skip) => {
   try {
     // const config = {
     //   headers: {
@@ -242,9 +209,7 @@ export const getAllUsers = async ( page, skip) => {
     //   },
     // };
 
-    const res = await axios.get(
-      `${API_URL}users?page=${page}&skip=${skip}`
-    );
+    const res = await axios.get(`${API_URL}users?page=${page}&skip=${skip}`);
     return res.data;
   } catch (error) {
     console.error("Error en usuarios", error);

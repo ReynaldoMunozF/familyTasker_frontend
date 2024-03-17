@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import {
   getUserById,
-  getTasksById,
   getFamilyById,
   updateUserById,
   updateTaskById,
@@ -20,7 +19,6 @@ import "moment/locale/pt-br";
 import { userData } from "../userSlice";
 import { registerLocale } from "react-datepicker";
 import Button from "react-bootstrap/Button";
-import Carousel from "react-bootstrap/Carousel";
 import moment from "moment";
 import "moment/locale/pt-br";
 import { Alert } from "react-bootstrap";
@@ -29,10 +27,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import edit_button from "../../assets/img/edit_button.png";
-import icono_borrar from "../../assets/img/icono_borrar.png";
 import icon_user from "../../assets/img/user_icon.png";
 import icon_newUser from "../../assets/img/newUser_icon.png";
-import icon_list from "../../assets/img/list_icon.png";
 import icon_add from "../../assets/img/add_icon.png";
 import icon_list2 from "../../assets/img/list2_icon.png";
 import icon_check from "../../assets/img/check_icon.png";
@@ -41,9 +37,6 @@ import icon_shop from "../../assets/img/shop_icon.png";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import { MagicMotion } from "react-magic-motion";
 import { foodProducts } from "../../constans";
-
-//import DatePicker from "react-multi-date-picker";
-//import TimePicker from "react-multi-date-picker/plugins/time_picker";
 
 export const Profile = () => {
   registerLocale("es", es);
@@ -71,7 +64,7 @@ export const Profile = () => {
   const userRdxData = useSelector(userData);
   const [startDate, setStartDate] = useState(new Date());
   const [startHour, setStartHour] = useState("");
-  console.log(startHour);
+
   const [taskDate, setTaskDate] = useState(new Date());
 
   const [isTodo, setIsTodo] = useState(false);
@@ -79,7 +72,7 @@ export const Profile = () => {
   const [shopData, setShopData] = useState({
     name_task: "",
   });
-  console.log(shopData);
+
   const [urlShop, setUrlShop] = useState("");
 
   const token = userRdxData.credentials.token;
@@ -87,31 +80,20 @@ export const Profile = () => {
   const myFamilyId = userRdxData.credentials.userData?.families_id;
   const myName = userRdxData.credentials.userData?.first_name;
 
-  // console.log(userRdxData);
-  // console.log(myId);
-  
-
   useEffect(() => {
-    
     if (!token) {
       navigate("/register");
     } else {
-      
-        getUserById(token, myId).then((res) => {
-          setProfileData(res);
-        });
-        getFamilyById(myFamilyId).then((res) => {
-          setAllFamilyTasksData(res);
-        });
-       
+      getUserById(token, myId).then((res) => {
+        setProfileData(res);
+      });
+      getFamilyById(myFamilyId).then((res) => {
+        setAllFamilyTasksData(res);
+      });
     }
   }, []);
 
-
-  console.log(allFamilyTaskData);
-
   const alltaskFamily = allFamilyTaskData?.tasks;
-  console.log(alltaskFamily);
 
   function sortByHour(arr) {
     return arr.sort((a, b) => {
@@ -127,7 +109,6 @@ export const Profile = () => {
       [event.target.name]: event.target.value,
     }));
   };
-
 
   const taskHandler = (event) => {
     setTaskData((prevState) => ({
@@ -190,7 +171,6 @@ export const Profile = () => {
   };
 
   useEffect(() => {
-    console.log(taskDate);
     const typeTask = "task";
     getTasksByFamilyIdAndDate(
       myFamilyId,
@@ -202,7 +182,6 @@ export const Profile = () => {
   }, [taskDate]);
 
   useEffect(() => {
-    console.log(taskDate);
     const typeTask = "shopping";
     getTasksByFamilyAndType(myFamilyId, typeTask).then((res) => {
       setAllTaskFamilyType(res);
@@ -214,9 +193,7 @@ export const Profile = () => {
     if (taskFamilyDate[index].status === "active") {
       countTaskActives += 1;
     }
-   
   }
-  console.log(countTaskActives);
 
   const tasksData = {
     users_id: myId,
@@ -238,23 +215,16 @@ export const Profile = () => {
   };
 
   const newShop = () => {
-   
     if (shopsData.name_task === "") {
       return setIsAlertTask(true);
     } else {
       createTask(shopsData).then((restask) => {
         restask.users_id = Number(restask.users_id);
-        //(restask.task_date = moment(restask.task_date).format("HH:mm")),
         setAllTaskFamilyType([...taskFamilyType, restask]);
-
-        //allTaskFamilyDate.push(restask);
-        console.log(restask);
       });
     }
-    console.log(allTaskFamilyDate);
   };
   const newTask = () => {
-    
     if (taskData.name_task === "") {
       return setIsAlertTask(true);
     } else {
@@ -262,18 +232,11 @@ export const Profile = () => {
         restask.users_id = Number(restask.users_id);
         (restask.task_date = moment(restask.task_date).format("HH:mm")),
           setAllTaskFamilyDateFamily([...taskFamilyDate, restask]);
-
-        //allTaskFamilyDate.push(restask);
-        console.log(restask);
-
-        // window.location.reload();
       });
     }
-    console.log(allTaskFamilyDate);
   };
 
   const updateStatusTask = (idTask, statusTask) => {
-    console.log(statusTask);
     let taskStatusData = "";
     if (statusTask == "inactive") {
       taskStatusData = {
@@ -292,11 +255,9 @@ export const Profile = () => {
             return { ...task, status: taskStatusData.status };
           }
 
-          console.log(task);
           return task;
         });
 
-        console.log(updatedTasks);
         setAllTaskFamilyDateFamily(updatedTasks);
       })
       .catch((error) => {
@@ -490,22 +451,11 @@ export const Profile = () => {
                 />
               </div>
               <div className="task_container">
-                {/* <DatePicker
-                  className="prueba"
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={15}
-                  timeCaption="hora"
-                  dateFormat="h:mm aa"
-                /> */}
                 <input
                   className="prueba"
                   type="time"
                   name="hour"
                   onChange={(event) => setStartHour(event.target.value)}
-                  //value={moment(startDate).format("hh:mm")}
                 />
 
                 <CustomInput
@@ -663,23 +613,6 @@ export const Profile = () => {
             </div>
           ) : null}
         </div>
-
-        {/* <div className="btn_conatiner">
-          <div className="imgBtn">
-          
-            <Carousel>
-              <Carousel.Item>
-                <img src={promo_1} alt="" />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img src={promo_2} alt="" />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img src={promo_3} alt="" />
-              </Carousel.Item>
-            </Carousel>
-          </div>
-        </div> */}
       </div>
 
       {/* <---------------------------------------------------------------- */}
